@@ -28,6 +28,16 @@
               今天
 ```
 
+## 安装
+
+从 [Releases](https://github.com/hszjj221/macos-lunar-calendar/releases) 下载最新的 `.dmg` 文件，挂载后将 `CalendarApp.app` 拖入应用程序文件夹。
+
+> **首次打开提示"已损坏"？**
+> 由于 App 未经 Apple 公证，macOS Gatekeeper 可能会拦截。在终端执行以下命令移除隔离标记即可：
+> ```bash
+> xattr -cr /Applications/CalendarApp.app
+> ```
+
 ## 环境要求
 
 - macOS 14.0+

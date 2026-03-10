@@ -25,6 +25,9 @@ jobs:
           cp .build/release/CalendarApp CalendarApp.app/Contents/MacOS/
           cp Sources/CalendarApp/Resources/Info.plist CalendarApp.app/Contents/
 
+      - name: Ad-hoc code sign
+        run: codesign --force --deep --sign - CalendarApp.app
+
       - name: Create DMG
         run: |
           mkdir -p dmg-staging
