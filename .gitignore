@@ -1,0 +1,5 @@
+.build/
+*.o
+*.d
+CalendarApp.app/
+.DS_Store
