@@ -62,7 +62,7 @@ struct MonthGridView: View {
             gregorianDay: dayNum,
             lunarText: LunarCalendarHelper.lunarDayText(for: date),
             solarTerm: LunarCalendarHelper.solarTerm(for: date),
-            holiday: LunarCalendarHelper.holiday(for: date),
+            holiday: LunarCalendarHelper.holiday(for: date) ?? LunarCalendarHelper.gregorianHoliday(for: date),
             isToday: isToday,
             isCurrentMonth: isCurrentMonth
         )

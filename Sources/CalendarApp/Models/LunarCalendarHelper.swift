@@ -177,6 +177,34 @@ struct LunarCalendarHelper {
         return nil
     }
 
+    // MARK: - 公历节日
+
+    static func gregorianHoliday(for date: Date) -> String? {
+        let greg = Calendar(identifier: .gregorian)
+        let comps = greg.dateComponents([.month, .day], from: date)
+        guard let month = comps.month, let day = comps.day else { return nil }
+
+        switch (month, day) {
+        // 法定节假日
+        case (1, 1):   return "元旦"
+        case (5, 1):   return "劳动节"
+        case (10, 1):  return "国庆节"
+        // 常见节日
+        case (3, 8):   return "妇女节"
+        case (6, 1):   return "儿童节"
+        case (7, 1):   return "建党节"
+        case (8, 1):   return "建军节"
+        case (9, 10):  return "教师节"
+        // 西方节日
+        case (2, 14):  return "情人节"
+        case (4, 1):   return "愚人节"
+        case (10, 31): return "万圣节"
+        case (12, 24): return "平安夜"
+        case (12, 25): return "圣诞节"
+        default:       return nil
+        }
+    }
+
     // MARK: - 私有辅助
 
     private static let monthNames = ["正月","二月","三月","四月","五月","六月",
