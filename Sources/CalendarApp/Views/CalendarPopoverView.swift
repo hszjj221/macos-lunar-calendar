@@ -69,16 +69,6 @@ struct CalendarPopoverView: View {
             .padding(.bottom, 8)
         }
         .frame(width: 320)
-        .gesture(
-            DragGesture(minimumDistance: 50, coordinateSpace: .local)
-                .onEnded { value in
-                    if value.translation.width < -50 {
-                        nextMonth()
-                    } else if value.translation.width > 50 {
-                        prevMonth()
-                    }
-                }
-        )
     }
 
     private var monthYearTitle: String {
