@@ -12,6 +12,8 @@ struct CalendarPopoverView: View {
                 Button(action: prevMonth) {
                     Image(systemName: "chevron.left")
                         .font(.system(size: 12, weight: .semibold))
+                        .frame(width: 36, height: 36)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
 
@@ -30,6 +32,8 @@ struct CalendarPopoverView: View {
                 Button(action: nextMonth) {
                     Image(systemName: "chevron.right")
                         .font(.system(size: 12, weight: .semibold))
+                        .frame(width: 36, height: 36)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
             }
