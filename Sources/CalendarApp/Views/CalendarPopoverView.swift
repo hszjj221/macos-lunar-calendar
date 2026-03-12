@@ -69,6 +69,9 @@ struct CalendarPopoverView: View {
             .padding(.bottom, 8)
         }
         .frame(width: 320)
+        .onAppear {
+            displayDate = Date()
+        }
     }
 
     private var monthYearTitle: String {
