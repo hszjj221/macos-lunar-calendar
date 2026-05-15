@@ -1,10 +1,10 @@
 import AppKit
 import SwiftUI
 
+@MainActor
 class StatusBarController: NSObject {
     private var statusItem: NSStatusItem
     private var popover: NSPopover
-    private var eventMonitor: Any?
 
     override init() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -19,6 +19,8 @@ class StatusBarController: NSObject {
         guard let button = statusItem.button else { return }
         button.image = NSImage(systemSymbolName: "calendar", accessibilityDescription: "日历")
         button.image?.isTemplate = true
+        button.toolTip = "万年历"
+        button.setAccessibilityLabel("万年历")
         button.action = #selector(handleClick)
         button.sendAction(on: [.leftMouseUp, .rightMouseUp])
         button.target = self

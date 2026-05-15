@@ -19,11 +19,7 @@ jobs:
         run: swift build -c release
 
       - name: Package .app bundle
-        run: |
-          mkdir -p CalendarApp.app/Contents/MacOS
-          mkdir -p CalendarApp.app/Contents/Resources
-          cp .build/release/CalendarApp CalendarApp.app/Contents/MacOS/
-          cp Sources/CalendarApp/Resources/Info.plist CalendarApp.app/Contents/
+        run: sh scripts/package_app.sh
 
       - name: Ad-hoc code sign
         run: codesign --force --deep --sign - CalendarApp.app

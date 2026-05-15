@@ -16,6 +16,8 @@ struct CalendarPopoverView: View {
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
+                .help("上个月")
+                .accessibilityLabel("上个月")
 
                 Spacer()
 
@@ -36,6 +38,8 @@ struct CalendarPopoverView: View {
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
+                .help("下个月")
+                .accessibilityLabel("下个月")
             }
             .padding(.horizontal, 12)
             .padding(.top, 10)
@@ -66,6 +70,8 @@ struct CalendarPopoverView: View {
             .buttonStyle(.plain)
             .font(.system(size: 12))
             .foregroundColor(.accentColor)
+            .help("回到今天")
+            .accessibilityLabel("今天")
             .padding(.bottom, 8)
         }
         .frame(width: 320)
@@ -75,9 +81,9 @@ struct CalendarPopoverView: View {
     }
 
     private var monthYearTitle: String {
-        let cal = Calendar(identifier: .gregorian)
-        let year = cal.component(.year, from: displayDate)
-        let month = cal.component(.month, from: displayDate)
+        let calendar = AppCalendars.gregorian
+        let year = calendar.component(.year, from: displayDate)
+        let month = calendar.component(.month, from: displayDate)
         return "\(year)年\(month)月"
     }
 
@@ -86,10 +92,10 @@ struct CalendarPopoverView: View {
     }
 
     private func prevMonth() {
-        displayDate = Calendar.current.date(byAdding: .month, value: -1, to: displayDate) ?? displayDate
+        displayDate = AppCalendars.gregorian.date(byAdding: .month, value: -1, to: displayDate) ?? displayDate
     }
 
     private func nextMonth() {
-        displayDate = Calendar.current.date(byAdding: .month, value: 1, to: displayDate) ?? displayDate
+        displayDate = AppCalendars.gregorian.date(byAdding: .month, value: 1, to: displayDate) ?? displayDate
     }
 }
