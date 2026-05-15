@@ -47,6 +47,11 @@ let todayCells = may.filter { $0.isToday }
 check(todayCells.count == 1, "Today cell count")
 check(todayCells[0].gregorianDay == 15 && todayCells[0].isCurrentMonth, "Today cell identity")
 
+let nextDay = CalendarMonthBuilder().days(for: requireDate(2026, 5, 15), today: requireDate(2026, 5, 16))
+let nextDayTodayCells = nextDay.filter { $0.isToday }
+check(nextDayTodayCells.count == 1, "Next-day today cell count")
+check(nextDayTodayCells[0].gregorianDay == 16 && nextDayTodayCells[0].isCurrentMonth, "Next-day today cell identity")
+
 print("model assertions passed")
 SWIFT
 

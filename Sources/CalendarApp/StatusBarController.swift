@@ -35,6 +35,10 @@ class StatusBarController: NSObject {
     private func setupPopover() {
         popover.contentSize = NSSize(width: 320, height: 400)
         popover.behavior = .transient
+        resetPopoverContent()
+    }
+
+    private func resetPopoverContent() {
         popover.contentViewController = NSHostingController(rootView: CalendarPopoverView())
     }
 
@@ -50,6 +54,7 @@ class StatusBarController: NSObject {
                 popover.performClose(nil)
             } else {
                 guard let button = statusItem.button else { return }
+                resetPopoverContent()
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
             }
         }

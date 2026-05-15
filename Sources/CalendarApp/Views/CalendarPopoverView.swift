@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CalendarPopoverView: View {
     @State private var displayDate: Date = Date()
+    @State private var today: Date = Date()
 
     private let weekdayLabels = ["日","一","二","三","四","五","六"]
 
@@ -58,14 +59,14 @@ struct CalendarPopoverView: View {
             Divider()
 
             // 月历网格
-            MonthGridView(displayDate: displayDate)
+            MonthGridView(displayDate: displayDate, today: today)
                 .padding(.horizontal, 8)
 
             Divider()
 
             // 今天按钮
             Button("今天") {
-                displayDate = Date()
+                refreshToToday()
             }
             .buttonStyle(.plain)
             .font(.system(size: 12))
@@ -76,7 +77,7 @@ struct CalendarPopoverView: View {
         }
         .frame(width: 320)
         .onAppear {
-            displayDate = Date()
+            refreshToToday()
         }
     }
 
@@ -97,5 +98,11 @@ struct CalendarPopoverView: View {
 
     private func nextMonth() {
         displayDate = AppCalendars.gregorian.date(byAdding: .month, value: 1, to: displayDate) ?? displayDate
+    }
+
+    private func refreshToToday() {
+        let now = Date()
+        today = now
+        displayDate = now
     }
 }
