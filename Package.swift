@@ -30,7 +30,7 @@ let package = Package(
         .executableTarget(
             name: "CalendarApp",
             path: "Sources/CalendarApp",
-            exclude: ["Resources/Info.plist"]
+            exclude: ["Resources"]
         ),
         .testTarget(
             name: "CalendarAppTests",
