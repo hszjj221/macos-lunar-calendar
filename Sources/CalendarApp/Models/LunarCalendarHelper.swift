@@ -1,6 +1,8 @@
 import Foundation
 
 struct LunarCalendarHelper {
+    static let solarTermSupportedYears = 2024...2030
+
     private static let chineseCal: Calendar = {
         var cal = Calendar(identifier: .chinese)
         cal.locale = Locale(identifier: "zh_CN")
@@ -27,8 +29,8 @@ struct LunarCalendarHelper {
         guard let year = comps.year else { return "" }
         let tianGan = ["甲","乙","丙","丁","戊","己","庚","辛","壬","癸"]
         let diZhi = ["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"]
-        let ganIndex = ((year - 4) % 10 + 10) % 10
-        let zhiIndex = ((year - 4) % 12 + 12) % 12
+        let ganIndex = ((year - 1) % 10 + 10) % 10
+        let zhiIndex = ((year - 1) % 12 + 12) % 12
         return tianGan[ganIndex] + diZhi[zhiIndex] + "年"
     }
 
@@ -141,6 +143,7 @@ struct LunarCalendarHelper {
         let greg = Calendar(identifier: .gregorian)
         let comps = greg.dateComponents([.year, .month, .day], from: date)
         guard let year = comps.year, let month = comps.month, let day = comps.day else { return nil }
+        guard solarTermSupportedYears.contains(year) else { return nil }
         guard let terms = solarTermTable[year] else { return nil }
         return terms.first { $0.0 == month && $0.1 == day }?.2
     }

@@ -1,7 +1,6 @@
 import Foundation
 
 struct CalendarDay: Identifiable {
-    let id = UUID()
     let date: Date
     let gregorianDay: Int
     let lunarText: String
@@ -9,6 +8,8 @@ struct CalendarDay: Identifiable {
     let holiday: String?
     let isToday: Bool
     let isCurrentMonth: Bool
+
+    var id: Date { date }
 
     // 优先显示：节日 > 节气 > 农历
     var subText: String {
