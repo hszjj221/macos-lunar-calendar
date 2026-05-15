@@ -2,8 +2,15 @@ import SwiftUI
 
 struct MonthGridView: View {
     let displayDate: Date
+    let today: Date
+
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
     private let builder = CalendarMonthBuilder()
+
+    init(displayDate: Date, today: Date = Date()) {
+        self.displayDate = displayDate
+        self.today = today
+    }
 
     var body: some View {
         LazyVGrid(columns: columns, spacing: 4) {
@@ -14,6 +21,6 @@ struct MonthGridView: View {
     }
 
     private var days: [CalendarDay] {
-        builder.days(for: displayDate)
+        builder.days(for: displayDate, today: today)
     }
 }

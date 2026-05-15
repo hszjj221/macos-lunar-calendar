@@ -35,3 +35,14 @@ import Testing
     #expect(todayCells[0].gregorianDay == 15)
     #expect(todayCells[0].isCurrentMonth)
 }
+
+@Test func sameDisplayDateCanHighlightDifferentInjectedToday() throws {
+    let displayDate = try #require(AppCalendars.gregorianDate(year: 2026, month: 5, day: 15))
+    let today = try #require(AppCalendars.gregorianDate(year: 2026, month: 5, day: 16))
+    let days = CalendarMonthBuilder().days(for: displayDate, today: today)
+    let todayCells = days.filter { $0.isToday }
+
+    #expect(todayCells.count == 1)
+    #expect(todayCells[0].gregorianDay == 16)
+    #expect(todayCells[0].isCurrentMonth)
+}
