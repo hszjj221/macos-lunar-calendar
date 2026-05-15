@@ -2,9 +2,11 @@ import AppKit
 import SwiftUI
 
 @MainActor
-class StatusBarController: NSObject {
+class StatusBarController: NSObject, NSPopoverDelegate {
     private var statusItem: NSStatusItem
     private var popover: NSPopover
+    private var localEventMonitor: Any?
+    private var globalEventMonitor: Any?
 
     override init() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -35,6 +37,7 @@ class StatusBarController: NSObject {
     private func setupPopover() {
         popover.contentSize = NSSize(width: 320, height: 400)
         popover.behavior = .transient
+        popover.delegate = self
         resetPopoverContent()
     }
 
@@ -45,18 +48,61 @@ class StatusBarController: NSObject {
     @objc private func handleClick() {
         guard let event = NSApp.currentEvent else { return }
         if event.type == .rightMouseUp {
-            popover.performClose(nil)
+            closePopover()
             statusItem.menu = buildMenu()
             statusItem.button?.performClick(nil)
             statusItem.menu = nil
         } else {
             if popover.isShown {
-                popover.performClose(nil)
+                closePopover()
             } else {
                 guard let button = statusItem.button else { return }
                 resetPopoverContent()
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+                startEventMonitoring()
             }
         }
+    }
+
+    private func closePopover() {
+        popover.performClose(nil)
+        stopEventMonitoring()
+    }
+
+    private func startEventMonitoring() {
+        stopEventMonitoring()
+
+        let eventMask: NSEvent.EventTypeMask = [.leftMouseDown, .rightMouseDown]
+        localEventMonitor = NSEvent.addLocalMonitorForEvents(matching: eventMask) { [weak self] event in
+            guard let self else { return event }
+            if event.window === self.statusItem.button?.window {
+                return event
+            }
+            if event.window === self.popover.contentViewController?.view.window {
+                return event
+            }
+            self.closePopover()
+            return event
+        }
+        globalEventMonitor = NSEvent.addGlobalMonitorForEvents(matching: eventMask) { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.closePopover()
+            }
+        }
+    }
+
+    private func stopEventMonitoring() {
+        if let localEventMonitor {
+            NSEvent.removeMonitor(localEventMonitor)
+            self.localEventMonitor = nil
+        }
+        if let globalEventMonitor {
+            NSEvent.removeMonitor(globalEventMonitor)
+            self.globalEventMonitor = nil
+        }
+    }
+
+    func popoverDidClose(_ notification: Notification) {
+        stopEventMonitoring()
     }
 }
